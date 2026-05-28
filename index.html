@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geovi's English Class ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1e2a;
+    --border: #252a38;
+    --accent: #7c6aff;
+    --accent2: #ff6a9b;
+    --accent3: #6affca;
+    --accent4: #ffca6a;
+    --text: #e8eaf0;
+    --muted: #7a80a0;
+    --glow: rgba(124,106,255,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(124,106,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 10% 80%, rgba(106,255,202,0.05) 0%, transparent 60%);
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    position: relative;
+  }
+  header .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.2rem;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(120deg, #fff 30%, var(--accent) 70%, var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.6rem;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    max-width: 480px;
+    margin: 1.5rem auto 2.5rem;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem 1rem 0.75rem 2.8rem;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--glow);
+  }
+  .search-wrap .ico {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+    padding: 0 0.5rem;
+  }
+  .tab-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 0.4rem 0.85rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); border-color: var(--accent); }
+  .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(124,106,255,0.4);
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--accent);
+    border-color: var(--accent);
+  }
+  .card.hidden { display: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    padding: 1rem 1.2rem 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .card-num {
+    margin-left: auto;
+    font-size: 0.65rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ── TABLE ── */
+  .card table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .card thead th {
+    background: var(--surface2);
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .card tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    cursor: default;
+  }
+  .card tbody tr:last-child { border-bottom: none; }
+  .card tbody tr:hover { background: rgba(124,106,255,0.07); }
+  .card tbody td {
+    padding: 0.6rem 1.2rem;
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+  .card tbody td:first-child { color: var(--text); }
+  .card tbody td:last-child { color: var(--muted); }
+
+  /* special pill for corrections */
+  .pill-bad {
+    display: inline-block;
+    background: rgba(255,106,155,0.12);
+    color: var(--accent2);
+    border-radius: 5px;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.72rem;
+    text-decoration: line-through;
+  }
+  .pill-good {
+    display: inline-block;
+    background: rgba(106,255,202,0.1);
+    color: var(--accent3);
+    border-radius: 5px;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  /* examples block */
+  .examples {
+    padding: 0.8rem 1.2rem 1rem;
+    border-top: 1px dashed var(--border);
+  }
+  .examples-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .examples ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .examples ul li::before { content: "→ "; color: var(--accent); }
+  .examples ul li {
+    font-size: 0.77rem;
+    color: var(--accent4);
+    line-height: 1.5;
+  }
+
+  /* accent colors per section */
+  .c1 .card-icon { background: rgba(124,106,255,0.15); }
+  .c2 .card-icon { background: rgba(255,106,155,0.15); }
+  .c3 .card-icon { background: rgba(106,255,202,0.15); }
+  .c4 .card-icon { background: rgba(255,202,106,0.15); }
+  .c5 .card-icon { background: rgba(106,200,255,0.15); }
+
+  /* ── TTS ── */
+  .speak-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 0.15rem 0.3rem;
+    border-radius: 5px;
+    transition: color 0.15s, background 0.15s, transform 0.1s;
+    line-height: 1;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+    flex-shrink: 0;
+  }
+  .speak-btn:hover { color: var(--accent3); background: rgba(106,255,202,0.1); }
+  .speak-btn.playing {
+    color: var(--accent3);
+    animation: pulse-speak 0.6s ease infinite alternate;
+  }
+  @keyframes pulse-speak {
+    from { transform: scale(1);   opacity: 1; }
+    to   { transform: scale(1.3); opacity: 0.7; }
+  }
+
+  /* row td with speak: flex layout */
+  .card tbody td.td-speak {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  /* TTS bar */
+  .tts-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 1.2rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .tts-bar label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tts-bar select {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 7px;
+    padding: 0.3rem 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    outline: none;
+    cursor: pointer;
+  }
+  .tts-bar select:focus { border-color: var(--accent); }
+
+  /* ── NO RESULTS ── */
+  #no-results {
+    display: none;
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    grid-column: 1/-1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    margin-top: 4rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--accent2); }
+  
+  /* Additional text utility */
+  .text-content p {
+    margin-bottom: 0.8rem;
+  }
+  .text-content strong {
+    color: var(--accent4);
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">📚 English Class Notes</div>
+  <h1>Geovi's Study Sheet</h1>
+  <p>Vocabulary · Grammar · Expressions · Corrections</p>
+</header>
+
+<!-- TTS Global Bar -->
+<div style="max-width:480px;margin:0 auto 0.5rem;padding:0 1rem;">
+  <div class="tts-bar" style="border-radius:12px;border:1px solid var(--border);">
+    <label>🔊 Voz</label>
+    <select id="voice-select"><option>Cargando voces...</option></select>
+    <label style="white-space:nowrap;">Vel.</label>
+    <input type="range" id="rate-range" min="0.5" max="1.5" step="0.1" value="0.9"
+      style="width:70px;accent-color:var(--accent);cursor:pointer;">
+    <span id="rate-val" style="font-size:0.65rem;color:var(--muted);min-width:2ch;">0.9</span>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <span class="ico">🔍</span>
+  <input type="text" id="search" placeholder="Buscar palabra o sección...">
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab-btn active" data-filter="all">All</button>
+  <button class="tab-btn" data-filter="grammar">Grammar</button>
+  <button class="tab-btn" data-filter="vocab">Vocabulary</button>
+  <button class="tab-btn" data-filter="expressions">Expressions</button>
+  <button class="tab-btn" data-filter="corrections">Corrections</button>
+</div>
+
+<div class="grid" id="grid">
+
+  <!-- NEW 1: Goals & Structure -->
+  <div class="card c4" data-tags="vocab expressions goals structure approach professional lesson">
+    <div class="card-header">
+      <div class="card-icon">🎯</div>
+      <div class="card-title">Lesson Goals & Structure</div>
+      <div class="card-num">§0</div>
+    </div>
+    <div class="text-content" style="padding: 1.2rem; font-size: 0.8rem; line-height: 1.6; color: var(--text);">
+      <p><strong>Goals:</strong> Improve speaking confidence, boost listening skills, master formal vocabulary, and practice interviews & networking.</p>
+      <p><strong>Structure:</strong> Warm-up → Vocabulary → Listening → Pronunciation → Roleplays → Debates → Interview prep → Homework.</p>
+      <p><strong>Approach:</strong> Real-world scenarios, short practice cycles, corrective feedback, and immediate speaking opportunities.</p>
+    </div>
+  </div>
+
+  <!-- NEW 2: Professional Legal Vocabulary (Part 1) -->
+  <div class="card c5" data-tags="vocab legal professional framework rights judicial jurisdiction precedent">
+    <div class="card-header">
+      <div class="card-icon">🏛️</div>
+      <div class="card-title">Legal Terms: Courts & Law</div>
+      <div class="card-num">§0.1</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Constitutional framework</span><button class="speak-btn" data-text="Constitutional framework">▶</button></td><td>Marco constitucional</td></tr>
+        <tr><td class="td-speak"><span>Human rights</span><button class="speak-btn" data-text="Human rights">▶</button></td><td>Derechos humanos</td></tr>
+        <tr><td class="td-speak"><span>Separation of powers</span><button class="speak-btn" data-text="Separation of powers">▶</button></td><td>Separación de poderes</td></tr>
+        <tr><td class="td-speak"><span>Judicial review</span><button class="speak-btn" data-text="Judicial review">▶</button></td><td>Control de constitucionalidad</td></tr>
+        <tr><td class="td-speak"><span>Legislation</span><button class="speak-btn" data-text="Legislation">▶</button></td><td>Legislación</td></tr>
+        <tr><td class="td-speak"><span>Statute</span><button class="speak-btn" data-text="Statute">▶</button></td><td>Estatuto / Ley</td></tr>
+        <tr><td class="td-speak"><span>Precedent</span><button class="speak-btn" data-text="Precedent">▶</button></td><td>Precedente</td></tr>
+        <tr><td class="td-speak"><span>Jurisdiction</span><button class="speak-btn" data-text="Jurisdiction">▶</button></td><td>Jurisdicción</td></tr>
+        <tr><td class="td-speak"><span>Liability</span><button class="speak-btn" data-text="Liability">▶</button></td><td>Responsabilidad</td></tr>
+        <tr><td class="td-speak"><span>Plaintiff</span><button class="speak-btn" data-text="Plaintiff">▶</button></td><td>Demandante</td></tr>
+        <tr><td class="td-speak"><span>Defendant</span><button class="speak-btn" data-text="Defendant">▶</button></td><td>Demandado</td></tr>
+        <tr><td class="td-speak"><span>Verdict</span><button class="speak-btn" data-text="Verdict">▶</button></td><td>Sentencia / Veredicto</td></tr>
+        <tr><td class="td-speak"><span>Appeal</span><button class="speak-btn" data-text="Appeal">▶</button></td><td>Apelación</td></tr>
+        <tr><td class="td-speak"><span>Evidence</span><button class="speak-btn" data-text="Evidence">▶</button></td><td>Prueba / Evidencia</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NEW 3: Professional Legal Vocabulary (Part 2) -->
+  <div class="card c1" data-tags="vocab legal professional diplomatic treaty convention UN NGO policy timeline">
+    <div class="card-header">
+      <div class="card-icon">🌍</div>
+      <div class="card-title">International & Policy</div>
+      <div class="card-num">§0.2</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Diplomatic channels</span><button class="speak-btn" data-text="Diplomatic channels">▶</button></td><td>Canales diplomáticos</td></tr>
+        <tr><td class="td-speak"><span>Sovereignty</span><button class="speak-btn" data-text="Sovereignty">▶</button></td><td>Soberanía</td></tr>
+        <tr><td class="td-speak"><span>Treaty</span><button class="speak-btn" data-text="Treaty">▶</button></td><td>Tratado</td></tr>
+        <tr><td class="td-speak"><span>Convention</span><button class="speak-btn" data-text="Convention">▶</button></td><td>Convención</td></tr>
+        <tr><td class="td-speak"><span>Protocol</span><button class="speak-btn" data-text="Protocol">▶</button></td><td>Protocolo</td></tr>
+        <tr><td class="td-speak"><span>Ratification</span><button class="speak-btn" data-text="Ratification">▶</button></td><td>Ratificación</td></tr>
+        <tr><td class="td-speak"><span>Humanitarian access</span><button class="speak-btn" data-text="Humanitarian access">▶</button></td><td>Acceso humanitario</td></tr>
+        <tr><td class="td-speak"><span>Stakeholder</span><button class="speak-btn" data-text="Stakeholder">▶</button></td><td>Parte interesada</td></tr>
+        <tr><td class="td-speak"><span>Transitional justice</span><button class="speak-btn" data-text="Transitional justice">▶</button></td><td>Justicia transicional</td></tr>
+        <tr><td class="td-speak"><span>Accountability</span><button class="speak-btn" data-text="Accountability">▶</button></td><td>Rendición de cuentas</td></tr>
+        <tr><td class="td-speak"><span>Policy brief</span><button class="speak-btn" data-text="Policy brief">▶</button></td><td>Documento de política</td></tr>
+        <tr><td class="td-speak"><span>Recommendation</span><button class="speak-btn" data-text="Recommendation">▶</button></td><td>Recomendación</td></tr>
+        <tr><td class="td-speak"><span>Deliverable</span><button class="speak-btn" data-text="Deliverable">▶</button></td><td>Entregable</td></tr>
+        <tr><td class="td-speak"><span>Timeline</span><button class="speak-btn" data-text="Timeline">▶</button></td><td>Cronograma / Calendario</td></tr>
+        <tr><td class="td-speak"><span>Course of action</span><button class="speak-btn" data-text="Course of action">▶</button></td><td>Curso de acción</td></tr>
+        <tr><td class="td-speak"><span>Implementation</span><button class="speak-btn" data-text="Implementation">▶</button></td><td>Implementación</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 1. Future Expressions -->
+  <div class="card c1" data-tags="grammar future going gonna will would about to present continuous">
+    <div class="card-header">
+      <div class="card-icon">🚀</div>
+      <div class="card-title">Future Expressions</div>
+      <div class="card-num">§1</div>
+    </div>
+    <table>
+      <thead><tr><th>Expression</th><th>Use / Uso</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Going to</span><button class="speak-btn" data-text="I am going to study tomorrow.">▶</button></td><td>Planes decididos · <em style="color:var(--muted)">I'm going to travel.</em></td></tr>
+        <tr><td class="td-speak"><span>Gonna</span><button class="speak-btn" data-text="I'm gonna study.">▶</button></td><td>Informal "going to" · <em style="color:var(--muted)">I'm gonna call you.</em></td></tr>
+        <tr><td class="td-speak"><span>Will</span><button class="speak-btn" data-text="I will help you.">▶</button></td><td>Decisión espontánea / promesa · <em style="color:var(--muted)">I'll help you!</em></td></tr>
+        <tr><td class="td-speak"><span>Won't</span><button class="speak-btn" data-text="I won't do that.">▶</button></td><td>Negación con will · <em style="color:var(--muted)">I won't be late.</em></td></tr>
+        <tr><td class="td-speak"><span>Would</span><button class="speak-btn" data-text="I would like to study more.">▶</button></td><td>Deseo / condicional · <em style="color:var(--muted)">I would love to go.</em></td></tr>
+        <tr><td class="td-speak"><span>Might</span><button class="speak-btn" data-text="It might rain tomorrow.">▶</button></td><td>Posibilidad · <em style="color:var(--muted)">I might be late.</em></td></tr>
+        <tr><td class="td-speak"><span>May</span><button class="speak-btn" data-text="It may be a good idea.">▶</button></td><td>Posibilidad formal · <em style="color:var(--muted)">She may call later.</em></td></tr>
+        <tr><td class="td-speak"><span>About to</span><button class="speak-btn" data-text="I am about to leave.">▶</button></td><td>Futuro inmediato · <em style="color:var(--muted)">I'm about to eat.</em></td></tr>
+        <tr><td class="td-speak"><span>Present Continuous</span><button class="speak-btn" data-text="I am meeting my boss tomorrow.">▶</button></td><td>Planes fijos/citas · <em style="color:var(--muted)">I'm meeting her at 9.</em></td></tr>
+        <tr><td class="td-speak"><span>Simple Present</span><button class="speak-btn" data-text="The bus leaves at eight.">▶</button></td><td>Horarios / itinerarios · <em style="color:var(--muted)">The bus leaves at 8.</em></td></tr>
+        <tr><td class="td-speak"><span>Be supposed to</span><button class="speak-btn" data-text="You are supposed to be there early.">▶</button></td><td>Se espera que / deber · <em style="color:var(--muted)">You're supposed to be there.</em></td></tr>
+        <tr><td class="td-speak"><span>Be planning to</span><button class="speak-btn" data-text="I am planning to visit my family.">▶</button></td><td>Estar planeando · <em style="color:var(--muted)">I'm planning to visit.</em></td></tr>
+      </tbody>
+    </table>
+    <div class="examples">
+      <div class="examples-label">Quick Examples</div>
+      <ul>
+        <li>I'm going to study. / I'm gonna study.</li>
+        <li>I will call you later. (decisión ahora mismo)</li>
+        <li>I might be late — not sure yet.</li>
+        <li>I'm about to leave, wait!</li>
+        <li>The train leaves at half past eight.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. Simple Past -->
+  <div class="card c2" data-tags="grammar past verbs woke made went thought">
+    <div class="card-header">
+      <div class="card-icon">⏮️</div>
+      <div class="card-title">Simple Past Verbs</div>
+      <div class="card-num">§2</div>
+    </div>
+    <table>
+      <thead><tr><th>Base</th><th>Past</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Wake</span><button class="speak-btn" data-text="Wake">▶</button></td><td>Woke</td><td>Despertar</td></tr>
+        <tr><td class="td-speak"><span>Make</span><button class="speak-btn" data-text="Make">▶</button></td><td>Made</td><td>Hacer</td></tr>
+        <tr><td class="td-speak"><span>Wash</span><button class="speak-btn" data-text="Wash">▶</button></td><td>Washed</td><td>Lavar</td></tr>
+        <tr><td class="td-speak"><span>Go</span><button class="speak-btn" data-text="Go">▶</button></td><td>Went</td><td>Ir</td></tr>
+        <tr><td class="td-speak"><span>Think</span><button class="speak-btn" data-text="Think">▶</button></td><td>Thought</td><td>Pensar</td></tr>
+        <tr><td class="td-speak"><span>Die</span><button class="speak-btn" data-text="Die">▶</button></td><td>Died</td><td>Morir</td></tr>
+        <tr><td class="td-speak"><span>Hear</span><button class="speak-btn" data-text="Hear">▶</button></td><td>Heard</td><td>Oír</td></tr>
+        <tr><td class="td-speak"><span>Feel</span><button class="speak-btn" data-text="Feel">▶</button></td><td>Felt</td><td>Sentir</td></tr>
+        <tr><td class="td-speak"><span>Forget</span><button class="speak-btn" data-text="Forget">▶</button></td><td>Forgot</td><td>Olvidar</td></tr>
+        <tr><td class="td-speak"><span>Stand</span><button class="speak-btn" data-text="Stand">▶</button></td><td>Stood</td><td>Estar de pie</td></tr>
+        <tr><td class="td-speak"><span>Keep</span><button class="speak-btn" data-text="Keep">▶</button></td><td>Kept</td><td>Mantener / seguir</td></tr>
+        <tr><td class="td-speak"><span>Get</span><button class="speak-btn" data-text="Get">▶</button></td><td>Got</td><td>Obtener / llegar</td></tr>
+        <tr><td class="td-speak"><span>Tell</span><button class="speak-btn" data-text="Tell">▶</button></td><td>Told</td><td>Decir</td></tr>
+        <tr><td class="td-speak"><span>Write</span><button class="speak-btn" data-text="Write">▶</button></td><td>Wrote</td><td>Escribir</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. Daily Routine -->
+  <div class="card c3" data-tags="vocab daily routine morning bed makeup dressed">
+    <div class="card-header">
+      <div class="card-icon">🌅</div>
+      <div class="card-title">Daily Routine</div>
+      <div class="card-num">§3</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Make my bed</span><button class="speak-btn" data-text="Make my bed">▶</button></td><td>Tender la cama</td></tr>
+        <tr><td class="td-speak"><span>Put on makeup</span><button class="speak-btn" data-text="Put on makeup">▶</button></td><td>Maquillarse</td></tr>
+        <tr><td class="td-speak"><span>Get dressed</span><button class="speak-btn" data-text="Get dressed">▶</button></td><td>Vestirse</td></tr>
+        <tr><td class="td-speak"><span>Boiled eggs</span><button class="speak-btn" data-text="Boiled eggs">▶</button></td><td>Huevos hervidos</td></tr>
+        <tr><td class="td-speak"><span>Half cup of kefir</span><button class="speak-btn" data-text="Half cup of kefir">▶</button></td><td>Media taza de kéfir</td></tr>
+        <tr><td class="td-speak"><span>Wash my face</span><button class="speak-btn" data-text="Wash my face">▶</button></td><td>Lavarme la cara</td></tr>
+        <tr><td class="td-speak"><span>Went out to work</span><button class="speak-btn" data-text="Went out to work">▶</button></td><td>Salí al trabajo</td></tr>
+        <tr><td class="td-speak"><span>Bus ride</span><button class="speak-btn" data-text="Bus ride">▶</button></td><td>Viaje en bus</td></tr>
+        <tr><td class="td-speak"><span>Standing the whole ride</span><button class="speak-btn" data-text="Standing the whole ride">▶</button></td><td>Parada todo el viaje</td></tr>
+        <tr><td class="td-speak"><span>Heels</span><button class="speak-btn" data-text="Heels">▶</button></td><td>Tacones</td></tr>
+        <tr><td class="td-speak"><span>It was very hot</span><button class="speak-btn" data-text="It was very hot">▶</button></td><td>Hacía mucho calor</td></tr>
+        <tr><td class="td-speak"><span>I arrived at work</span><button class="speak-btn" data-text="I arrived at work">▶</button></td><td>Llegué al trabajo</td></tr>
+        <tr><td class="td-speak"><span>I made it to work</span><button class="speak-btn" data-text="I made it to work">▶</button></td><td>Logré llegar al trabajo</td></tr>
+        <tr><td class="td-speak"><span>A little late</span><button class="speak-btn" data-text="A little late">▶</button></td><td>Un poco tarde</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. Work & Office -->
+  <div class="card c4" data-tags="vocab work office boss coworkers notary reviewing">
+    <div class="card-header">
+      <div class="card-icon">💼</div>
+      <div class="card-title">Work & Office</div>
+      <div class="card-num">§4</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Coworkers</span><button class="speak-btn" data-text="Coworkers">▶</button></td><td>Compañeros de trabajo</td></tr>
+        <tr><td class="td-speak"><span>Boss</span><button class="speak-btn" data-text="Boss">▶</button></td><td>Jefe/a</td></tr>
+        <tr><td class="td-speak"><span>Notary office</span><button class="speak-btn" data-text="Notary office">▶</button></td><td>Notaría</td></tr>
+        <tr><td class="td-speak"><span>Traffic accident</span><button class="speak-btn" data-text="Traffic accident">▶</button></td><td>Accidente de tránsito</td></tr>
+        <tr><td class="td-speak"><span>Near your office</span><button class="speak-btn" data-text="Near your office">▶</button></td><td>Cerca de tu oficina</td></tr>
+        <tr><td class="td-speak"><span>Reviewing</span><button class="speak-btn" data-text="Reviewing">▶</button></td><td>Revisando</td></tr>
+        <tr><td class="td-speak"><span>Reviewed</span><button class="speak-btn" data-text="Reviewed">▶</button></td><td>Revisado</td></tr>
+        <tr><td class="td-speak"><span>Checking</span><button class="speak-btn" data-text="Checking">▶</button></td><td>Verificando</td></tr>
+        <tr><td class="td-speak"><span>Updated</span><button class="speak-btn" data-text="Updated">▶</button></td><td>Actualizado</td></tr>
+        <tr><td class="td-speak"><span>Outdated</span><button class="speak-btn" data-text="Outdated">▶</button></td><td>Desactualizado</td></tr>
+        <tr><td class="td-speak"><span>Postponed</span><button class="speak-btn" data-text="Postponed">▶</button></td><td>Pospuesto</td></tr>
+        <tr><td class="td-speak"><span>Must be completed</span><button class="speak-btn" data-text="Must be completed">▶</button></td><td>Deben completarse</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. Legal (General) -->
+  <div class="card c5" data-tags="vocab legal lawsuit claim defendant police court">
+    <div class="card-header">
+      <div class="card-icon">⚖️</div>
+      <div class="card-title">General Legal Vocabulary</div>
+      <div class="card-num">§5</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Claim</span><button class="speak-btn" data-text="Claim">▶</button></td><td>Reclamo / pretensión</td></tr>
+        <tr><td class="td-speak"><span>Claim against</span><button class="speak-btn" data-text="Claim against">▶</button></td><td>Reclamo contra</td></tr>
+        <tr><td class="td-speak"><span>Lawsuit</span><button class="speak-btn" data-text="Lawsuit">▶</button></td><td>Demanda / proceso judicial</td></tr>
+        <tr><td class="td-speak"><span>Lawsuit against</span><button class="speak-btn" data-text="Lawsuit against">▶</button></td><td>Demanda contra</td></tr>
+        <tr><td class="td-speak"><span>File a lawsuit</span><button class="speak-btn" data-text="File a lawsuit">▶</button></td><td>Presentar una demanda</td></tr>
+        <tr><td class="td-speak"><span>Submit a claim</span><button class="speak-btn" data-text="Submit a claim">▶</button></td><td>Presentar un reclamo</td></tr>
+        <tr><td class="td-speak"><span>Take it back</span><button class="speak-btn" data-text="Take it back">▶</button></td><td>Retractarse</td></tr>
+        <tr><td class="td-speak"><span>Police report</span><button class="speak-btn" data-text="Police report">▶</button></td><td>Parte policial</td></tr>
+        <tr><td class="td-speak"><span>Court proceedings</span><button class="speak-btn" data-text="Court proceedings">▶</button></td><td>Actuaciones procesales</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6. Emotions & States -->
+  <div class="card c2" data-tags="vocab emotions stressful sleepy tired unfair hope">
+    <div class="card-header">
+      <div class="card-icon">💭</div>
+      <div class="card-title">Emotions & States</div>
+      <div class="card-num">§7</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Stressful</span><button class="speak-btn" data-text="Stressful">▶</button></td><td>Estresante</td></tr>
+        <tr><td class="td-speak"><span>Sleepy</span><button class="speak-btn" data-text="Sleepy">▶</button></td><td>Con sueño</td></tr>
+        <tr><td class="td-speak"><span>Tired</span><button class="speak-btn" data-text="Tired">▶</button></td><td>Cansada/o</td></tr>
+        <tr><td class="td-speak"><span>Unfair</span><button class="speak-btn" data-text="Unfair">▶</button></td><td>Injusto</td></tr>
+        <tr><td class="td-speak"><span>Pain</span><button class="speak-btn" data-text="Pain">▶</button></td><td>Dolor</td></tr>
+        <tr><td class="td-speak"><span>Hope</span><button class="speak-btn" data-text="Hope">▶</button></td><td>Esperanza</td></tr>
+        <tr><td class="td-speak"><span>I'm glad to hear it</span><button class="speak-btn" data-text="I'm glad to hear it">▶</button></td><td>Me alegra escucharlo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 7. Natural Expressions -->
+  <div class="card c1" data-tags="expressions natural wanna keep talking cry scold joking">
+    <div class="card-header">
+      <div class="card-icon">💬</div>
+      <div class="card-title">Natural Expressions</div>
+      <div class="card-num">§8</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>What I wanna say</span><button class="speak-btn" data-text="What I wanna say">▶</button></td><td>Lo que quiero decir</td></tr>
+        <tr><td class="td-speak"><span>What I wanted to say</span><button class="speak-btn" data-text="What I wanted to say">▶</button></td><td>Lo que quería decir</td></tr>
+        <tr><td class="td-speak"><span>Keep talking</span><button class="speak-btn" data-text="Keep talking">▶</button></td><td>Sigue hablando</td></tr>
+        <tr><td class="td-speak"><span>Don't make fun of me</span><button class="speak-btn" data-text="Don't make fun of me">▶</button></td><td>No te burles de mí</td></tr>
+        <tr><td class="td-speak"><span>May I cry?</span><button class="speak-btn" data-text="May I cry?">▶</button></td><td>¿Puedo llorar?</td></tr>
+        <tr><td class="td-speak"><span>You are allowed to cry</span><button class="speak-btn" data-text="You are allowed to cry">▶</button></td><td>Tienes permitido llorar</td></tr>
+        <tr><td class="td-speak"><span>That's forbidden</span><button class="speak-btn" data-text="That's forbidden">▶</button></td><td>Eso está prohibido</td></tr>
+        <tr><td class="td-speak"><span>You keep scolding me</span><button class="speak-btn" data-text="You keep scolding me">▶</button></td><td>Sigues regañándome</td></tr>
+        <tr><td class="td-speak"><span>I keep speaking Spanish</span><button class="speak-btn" data-text="I keep speaking Spanish">▶</button></td><td>Sigo hablando español</td></tr>
+        <tr><td class="td-speak"><span>Might be good</span><button class="speak-btn" data-text="Might be good">▶</button></td><td>Podría ser bueno</td></tr>
+        <tr><td class="td-speak"><span>I would say</span><button class="speak-btn" data-text="I would say">▶</button></td><td>Yo diría</td></tr>
+        <tr><td class="td-speak"><span>Joking</span><button class="speak-btn" data-text="Joking">▶</button></td><td>Bromeando</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 8. Trust & Feelings -->
+  <div class="card c3" data-tags="expressions trust feelings weird creepy disturbing">
+    <div class="card-header">
+      <div class="card-icon">🤝</div>
+      <div class="card-title">Trust & Feelings</div>
+      <div class="card-num">§10–11</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>You don't trust me</span><button class="speak-btn" data-text="You don't trust me">▶</button></td><td>No confías en mí</td></tr>
+        <tr><td class="td-speak"><span>But I trust you</span><button class="speak-btn" data-text="But I trust you">▶</button></td><td>Pero yo confío en ti</td></tr>
+        <tr><td class="td-speak"><span>What are you allergic to?</span><button class="speak-btn" data-text="What are you allergic to?">▶</button></td><td>¿A qué eres alérgica?</td></tr>
+        <tr><td class="td-speak"><span>I like you that way</span><button class="speak-btn" data-text="I like you that way">▶</button></td><td>Me gustas así</td></tr>
+        <tr><td class="td-speak"><span>Weird</span><button class="speak-btn" data-text="Weird">▶</button></td><td>Raro/a</td></tr>
+        <tr><td class="td-speak"><span>Creepy</span><button class="speak-btn" data-text="Creepy">▶</button></td><td>Perturbador / creepy</td></tr>
+        <tr><td class="td-speak"><span>Disturbing</span><button class="speak-btn" data-text="Disturbing">▶</button></td><td>Inquietante</td></tr>
+        <tr><td class="td-speak"><span>Way too weird</span><button class="speak-btn" data-text="Way too weird">▶</button></td><td>Demasiado raro</td></tr>
+        <tr><td class="td-speak"><span>Way too creepy</span><button class="speak-btn" data-text="Way too creepy">▶</button></td><td>Demasiado creepy</td></tr>
+      </tbody>
+    </table>
+    <div class="examples">
+      <div class="examples-label">Examples</div>
+      <ul>
+        <li>You're a little weird.</li>
+        <li>You're way too weird.</li>
+        <li>I like you that way.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 9. Time Expressions -->
+  <div class="card c4" data-tags="grammar time expressions earlier half past eight nine">
+    <div class="card-header">
+      <div class="card-icon">🕐</div>
+      <div class="card-title">Time Expressions</div>
+      <div class="card-num">§12</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Earlier</span><button class="speak-btn" data-text="Earlier">▶</button></td><td>Más temprano</td></tr>
+        <tr><td class="td-speak"><span>Half past eight</span><button class="speak-btn" data-text="Half past eight">▶</button></td><td>Ocho y media</td></tr>
+        <tr><td class="td-speak"><span>Between half past eight and nine</span><button class="speak-btn" data-text="Between half past eight and nine">▶</button></td><td>Entre ocho y media y nueve</td></tr>
+        <tr><td class="td-speak"><span>Half an hour earlier</span><button class="speak-btn" data-text="Half an hour earlier">▶</button></td><td>Media hora antes</td></tr>
+      </tbody>
+    </table>
+    <div class="examples">
+      <div class="examples-label">Examples</div>
+      <ul>
+        <li>What time are you supposed to be there?</li>
+        <li>You must be there half an hour earlier.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 10. Listen vs Hear -->
+  <div class="card c5" data-tags="grammar listen hear difference">
+    <div class="card-header">
+      <div class="card-icon">👂</div>
+      <div class="card-title">Listen vs Hear</div>
+      <div class="card-num">§13</div>
+    </div>
+    <table>
+      <thead><tr><th>Word</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Listen</span><button class="speak-btn" data-text="Listen">▶</button></td><td>Escuchar con atención</td></tr>
+        <tr><td class="td-speak"><span>Hear</span><button class="speak-btn" data-text="Hear">▶</button></td><td>Oír (sin esfuerzo)</td></tr>
+      </tbody>
+    </table>
+    <div class="examples">
+      <div class="examples-label">Examples</div>
+      <ul>
+        <li>Listen to me.</li>
+        <li>I heard a noise.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 11. Corrections -->
+  <div class="card c2" data-tags="corrections mistakes near remind lawsuit half hour">
+    <div class="card-header">
+      <div class="card-icon">✏️</div>
+      <div class="card-title">Important Corrections</div>
+      <div class="card-num">§14</div>
+    </div>
+    <table>
+      <thead><tr><th>❌ Incorrect</th><th>✅ Correct</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="pill-bad">Near from your office</span></td>
+          <td class="td-speak"><span class="pill-good">Near your office</span><button class="speak-btn" data-text="Near your office">▶</button></td>
+        </tr>
+        <tr>
+          <td><span class="pill-bad">Something that happen</span></td>
+          <td class="td-speak"><span class="pill-good">Something that happened</span><button class="speak-btn" data-text="Something that happened">▶</button></td>
+        </tr>
+        <tr>
+          <td><span class="pill-bad">Lawsuite</span></td>
+          <td class="td-speak"><span class="pill-good">Lawsuit</span><button class="speak-btn" data-text="Lawsuit">▶</button></td>
+        </tr>
+        <tr>
+          <td><span class="pill-bad">remind it</span></td>
+          <td class="td-speak"><span class="pill-good">remember it</span><button class="speak-btn" data-text="remember it">▶</button></td>
+        </tr>
+        <tr>
+          <td><span class="pill-bad">an half hour</span></td>
+          <td class="td-speak"><span class="pill-good">half an hour</span><button class="speak-btn" data-text="half an hour">▶</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 12. Scold + Extra -->
+  <div class="card c3" data-tags="vocab scold scolded tell off lint pillow">
+    <div class="card-header">
+      <div class="card-icon">🗂️</div>
+      <div class="card-title">Extra Vocabulary</div>
+      <div class="card-num">§9 + §15</div>
+    </div>
+    <table>
+      <thead><tr><th>English</th><th>Español</th></tr></thead>
+      <tbody>
+        <tr><td class="td-speak"><span>Scold</span><button class="speak-btn" data-text="Scold">▶</button></td><td>Regañar</td></tr>
+        <tr><td class="td-speak"><span>Tell off</span><button class="speak-btn" data-text="Tell off">▶</button></td><td>Regañar fuerte</td></tr>
+        <tr><td class="td-speak"><span>Scolded</span><button class="speak-btn" data-text="Scolded">▶</button></td><td>Regañado/a</td></tr>
+        <tr><td class="td-speak"><span>Lint</span><button class="speak-btn" data-text="Lint">▶</button></td><td>Pelusa</td></tr>
+        <tr><td class="td-speak"><span>Pillow</span><button class="speak-btn" data-text="Pillow">▶</button></td><td>Almohada</td></tr>
+        <tr><td class="td-speak"><span>Response</span><button class="speak-btn" data-text="Response">▶</button></td><td>Respuesta</td></tr>
+        <tr><td class="td-speak"><span>You're welcome</span><button class="speak-btn" data-text="You're welcome">▶</button></td><td>De nada</td></tr>
+        <tr><td class="td-speak"><span>Without dying please</span><button class="speak-btn" data-text="Without dying please">▶</button></td><td>Sin morir por favor</td></tr>
+        <tr><td class="td-speak"><span>Policy and Terms</span><button class="speak-btn" data-text="Policy and Terms">▶</button></td><td>Políticas y términos</td></tr>
+        <tr><td class="td-speak"><span>A book written by…</span><button class="speak-btn" data-text="A book written by…">▶</button></td><td>Un libro escrito por…</td></tr>
+        <tr><td class="td-speak"><span>Pilot</span><button class="speak-btn" data-text="Pilot">▶</button></td><td>Piloto</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="no-results">Nada encontrado 😕 — intenta otra búsqueda</div>
+
+</div><!-- /.grid -->
+
+<footer>
+  <p>Made with <span>♥</span> for Geovi · English Class 2026</p>
+</footer>
+
+<script>
+  // -- 1. FILTERING LOGIC --
+  const search = document.getElementById('search');
+  const cards  = document.querySelectorAll('.card:not(#no-results)');
+  const noRes  = document.getElementById('no-results');
+  const tabs   = document.querySelectorAll('.tab-btn');
+
+  let activeFilter = 'all';
+
+  const filterMap = {
+    grammar:     ['grammar'],
+    vocab:       ['vocab'],
+    expressions: ['expressions'],
+    corrections: ['corrections'],
+  };
+
+  function filterCards() {
+    const q = search.value.toLowerCase().trim();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const tags    = card.dataset.tags || '';
+      const text    = card.innerText.toLowerCase();
+      const matchQ  = !q || text.includes(q) || tags.includes(q);
+
+      let matchTab = true;
+      if (activeFilter !== 'all') {
+        matchTab = filterMap[activeFilter]?.some(t => tags.includes(t)) ?? true;
+      }
+
+      if (matchQ && matchTab) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    noRes.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  search.addEventListener('input', filterCards);
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      filterCards();
+    });
+  });
+
+  // Stagger card animations on load
+  cards.forEach((c, i) => {
+    c.style.animationDelay = `${i * 0.05}s`;
+  });
+
+
+  // -- 2. TTS (TEXT TO SPEECH) LOGIC --
+  const synth = window.speechSynthesis;
+  const voiceSelect = document.getElementById('voice-select');
+  const rateRange = document.getElementById('rate-range');
+  const rateVal = document.getElementById('rate-val');
+  let voices = [];
+
+  function populateVoiceList() {
+    voices = synth.getVoices();
+    if (voices.length === 0) return; // sometimes it takes a bit
+
+    voiceSelect.innerHTML = '';
+    
+    // Prefiera voces en inglés (EE.UU. o UK), pero permite todas
+    let englishVoices = voices.filter(v => v.lang.startsWith('en'));
+    let defaultVoices = englishVoices.length > 0 ? englishVoices : voices;
+
+    defaultVoices.forEach((voice) => {
+      const option = document.createElement('option');
+      option.textContent = `${voice.name} (${voice.lang})`;
+      option.setAttribute('data-name', voice.name);
+      // Select a nice default if possible (e.g., Google US English or standard en-US)
+      if (voice.name.includes('Google US English') || voice.name.includes('Samantha') || voice.default) {
+        option.selected = true;
+      }
+      voiceSelect.appendChild(option);
+    });
+  }
+
+  // Carga de voces (Asíncrono en algunos navegadores)
+  populateVoiceList();
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoiceList;
+  }
+
+  // Actualizar el valor de la velocidad (Rate)
+  rateRange.addEventListener('input', () => {
+    rateVal.textContent = rateRange.value;
+  });
+
+  // Escuchar clicks en todos los botones de "Speak"
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('speak-btn')) {
+      const btn = e.target;
+      const textToSpeak = btn.getAttribute('data-text');
+      
+      if (!textToSpeak) return;
+
+      // Detener cualquier audio que se esté reproduciendo
+      synth.cancel();
+
+      const utterThis = new SpeechSynthesisUtterance(textToSpeak);
+      
+      // Asignar voz seleccionada
+      const selectedVoiceName = voiceSelect.selectedOptions[0]?.getAttribute('data-name');
+      const selectedVoice = voices.find(v => v.name === selectedVoiceName);
+      if (selectedVoice) utterThis.voice = selectedVoice;
+      
+      // Asignar velocidad
+      utterThis.rate = rateRange.value;
+
+      // Efecto visual de 'pulsing'
+      document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('playing'));
+      btn.classList.add('playing');
+
+      // Remover efecto al terminar
+      utterThis.onend = () => {
+        btn.classList.remove('playing');
+      };
+      utterThis.onerror = () => {
+        btn.classList.remove('playing');
+      };
+
+      synth.speak(utterThis);
+    }
+  });
+
+</script>
+</body>
+</html>
